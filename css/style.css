@@ -39,7 +39,7 @@ body {
     width: 200px;
     height: 180px;
     margin: 0 auto 20px;
-    border-radius: 50%;
+    border-radius: 15px;
 }
 
 .option-btn {
@@ -232,5 +232,11 @@ svg {
 }
 
 /* progress bar */
-.progress { background: rgba(0,0,0,0.05); }
-.progress-bar { background: linear-gradient(90deg,#0d6efd,#198754); transition: width 0.25s ease; }
+.progress {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #0d6efd, #198754);
+    transition: width 0.25s ease;
+}
