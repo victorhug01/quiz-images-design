@@ -36,11 +36,11 @@ body {
 }
 
 .question-img {
-    width: 200px;
-    height: 180px;
+    width: 300px;
+    height: 270px;
     margin: 0 auto 20px;
     border-radius: 15px;
-}
+}   
 
 .option-btn {
     width: 100%;
