@@ -82,6 +82,16 @@ function showQuestion(index) {
             });
         });
     }
+
+    // atualiza a barra de progresso (0..100)
+    updateProgress(index);
+}
+
+function updateProgress(index) {
+    const bar = document.getElementById('quizProgress');
+    if (!bar) return;
+    const pct = Math.round((index / (questions.length - 1)) * 100);
+    bar.style.width = pct + '%';
 }
 
 function showResultsPage() {
