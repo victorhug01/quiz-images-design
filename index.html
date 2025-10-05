@@ -10,22 +10,74 @@
       max-width: 600px;
       margin: auto;
       margin-top: 40px;
+      animation: fadeIn 1s ease;
     }
+
     .question-img {
       max-width: 200px;
       margin-bottom: 20px;
+      animation: fadeIn 0.8s ease-in-out;
     }
+
     .option-btn {
       width: 100%;
       margin: 5px 0;
+      transition: all 0.3s ease;
     }
+
+    .option-btn:hover {
+      transform: scale(1.02);
+    }
+
     .correct {
       background-color: #198754 !important;
       color: white;
     }
+
     .incorrect {
       background-color: #dc3545 !important;
       color: white;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    #feedback {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.5s ease;
+    }
+
+    #feedback.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #result {
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
@@ -33,7 +85,7 @@
   <div class="container quiz-container">
     <h2 class="text-center mb-4">Logo Quiz: Marcas Brasileiras</h2>
 
-    <div id="quiz">
+    <div id="quiz" class="fade-in">
       <!-- Questões serão inseridas aqui pelo JS -->
     </div>
 
@@ -75,11 +127,11 @@
     function showQuestion(index) {
       const q = questions[index];
       quiz.innerHTML = `
-        <div class="text-center">
+        <div class="text-center fade-in">
           <img src="${q.image}" alt="Questão ${index + 1}" class="question-img img-fluid"/>
         </div>
-        <h5 class="text-center mb-3">Questão ${index + 1}</h5>
-        <div class="d-grid gap-2">
+        <h5 class="text-center mb-3 fade-in">Questão ${index + 1}</h5>
+        <div class="d-grid gap-2 fade-in">
           ${q.options.map(option => `
             <button class="btn btn-outline-dark option-btn" data-answer="${option}">${option}</button>
           `).join('')}
@@ -88,7 +140,7 @@
       `;
 
       document.querySelectorAll('.option-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
           const selected = this.getAttribute('data-answer');
           const correct = questions[currentQuestion].answer;
           const feedback = document.getElementById('feedback');
@@ -105,6 +157,7 @@
             userAnswers.push({ correct: false, selected, correctAnswer: correct });
           }
 
+          feedback.classList.add('show');
           document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
           nextBtn.classList.remove('d-none');
         });
