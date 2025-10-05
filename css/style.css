@@ -1,0 +1,232 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+:root {
+    --bg-light: white;
+    --bg-dark: #121212;
+    --text-light: #000000;
+    --text-dark: white;
+}
+
+[data-theme="light"] {
+    background-color: var(--bg-light);
+    color: var(--text-light);
+}
+
+[data-theme="dark"] {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+}
+
+body {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.quiz-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    min-height: 93vh !important;
+}
+
+.question-img {
+    width: 200px;
+    height: 180px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+}
+
+.option-btn {
+    width: 100%;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+}
+
+.option-btn:hover {
+    transform: scale(1.02);
+}
+
+.correct {
+    background-color: #198754 !important;
+    color: white !important;
+}
+
+.incorrect {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+.toast-msg {
+    margin-top: 10px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.toast-success {
+    background-color: transparent;
+    color: #0f5132;
+}
+
+.toast-error {
+    background-color: transparent;
+    color: #842029;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Correções para o modo escuro */
+[data-theme="dark"] .btn-outline-dark {
+    color: white;
+    border-color: white;
+}
+
+[data-theme="dark"] .btn-outline-dark:hover {
+    background-color: white;
+    color: #121212;
+}
+
+[data-theme="dark"] .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.card {
+    border-radius: 10px;
+    padding: 15px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+[data-theme="light"] .card {
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    border: 1px solid #ddd;
+}
+
+[data-theme="dark"] .card {
+    background-color: #212529;
+    color: var(--text-dark);
+    border: 1px solid #444;
+}
+
+[data-theme="light"] .navbar {
+    background-color: #f8f9fa;
+    /* cor clara padrão */
+    color: #000;
+}
+
+/* Navbar no tema escuro */
+[data-theme="dark"] .navbar {
+    background-color: #212529;
+    /* mesmo fundo do container escuro */
+    color: #fff;
+}
+
+/* Botão de tema na navbar */
+[data-theme="dark"] .theme-toggle {
+    color: #fff;
+    border-color: #fff;
+}
+
+[data-theme="light"] .theme-toggle {
+    color: #000;
+    border-color: #000;
+}
+
+/* The switch - the box around the slider */
+#theme-toggle-button {
+    font-size: 17px;
+    position: relative;
+    display: flex;
+    justify-content: end;
+    width: 7em;
+    cursor: pointer;
+}
+
+/* Hide default HTML checkbox */
+#toggle {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+#container,
+#patches,
+#stars,
+#button,
+#sun,
+#moon,
+#cloud {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 0.25s;
+}
+
+/* night sky background */
+#toggle:checked+svg #container {
+    fill: #2b4360;
+}
+
+/* move button to right when checked */
+#toggle:checked+svg #button {
+    transform: translate(28px, 2.333px);
+}
+
+/* show/hide sun and moon based on checkbox state */
+#sun {
+    opacity: 1;
+}
+
+#toggle:checked+svg #sun {
+    opacity: 0;
+}
+
+#moon {
+    opacity: 0;
+}
+
+#toggle:checked+svg #moon {
+    opacity: 1;
+}
+
+/* show or hide background items on checkbox state */
+#cloud {
+    opacity: 1;
+}
+
+#toggle:checked+svg #cloud {
+    opacity: 0;
+}
+
+#stars {
+    opacity: 0;
+}
+
+#toggle:checked+svg #stars {
+    opacity: 1;
+}
+
+svg {
+    height: 40px;
+}
