@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Logo Quiz Brasil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    .quiz-container {
+      max-width: 600px;
+      margin: auto;
+      margin-top: 40px;
+    }
+    .question-img {
+      max-width: 200px;
+      margin-bottom: 20px;
+    }
+    .option-btn {
+      width: 100%;
+      margin: 5px 0;
+    }
+    .correct {
+      background-color: #198754 !important;
+      color: white;
+    }
+    .incorrect {
+      background-color: #dc3545 !important;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container quiz-container">
+    <h2 class="text-center mb-4">Logo Quiz: Marcas Brasileiras</h2>
+
+    <div id="quiz">
+      <!-- Questões serão inseridas aqui pelo JS -->
+    </div>
+
+    <div class="text-center mt-4">
+      <button id="nextBtn" class="btn btn-primary d-none">Avançar</button>
+    </div>
+
+    <div id="result" class="mt-5 d-none">
+      <h3 class="text-center">Resultado Final</h3>
+      <p class="text-center fw-bold" id="scoreText"></p>
+      <ul class="list-group" id="summaryList"></ul>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { image: 'images/1.png', options: ['Inter', 'Itaú', 'Intel', 'iFood'], answer: 'Itaú' },
+      { image: 'images/2.png', options: ['Santander', 'Bancoob', 'Sicoob', 'Bradesco'], answer: 'Bradesco' },
+      { image: 'images/3.png', options: ['Natura', 'Nivea', 'O Boticário', 'Eudora'], answer: 'Natura' },
+      { image: 'images/4.png', options: ['Riachuelo', 'Renault', 'Renner', 'Risqué'], answer: 'Renner' },
+      { image: 'images/5.png', options: ['Ipiranga', 'Itaú', 'Shell', 'Itaipava'], answer: 'Ipiranga' },
+      { image: 'images/6.png', options: ['Max Love', 'Magazine Luiza', 'Mentos', 'Motorola'], answer: 'Magazine Luiza' },
+      { image: 'images/7.png', options: ['Habibs', 'Hugo Boss', 'Havaianas', 'Hermès'], answer: 'Havaianas' },
+      { image: 'images/8.png', options: ['Blue Fit', 'Sky Fit', 'Black Fit', 'Smart Fit'], answer: 'Smart Fit' },
+      { image: 'images/9.png', options: ['Sukita', 'Guaraná Antarctica', 'Guaraná Kuat', 'Dolly Guaraná'], answer: 'Guaraná Antarctica' },
+      { image: 'images/10.png', options: ['Seara', 'Skol', 'Sadia', 'Seda'], answer: 'Sadia' },
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let userAnswers = [];
+
+    const quiz = document.getElementById('quiz');
+    const nextBtn = document.getElementById('nextBtn');
+    const result = document.getElementById('result');
+    const scoreText = document.getElementById('scoreText');
+    const summaryList = document.getElementById('summaryList');
+
+    function showQuestion(index) {
+      const q = questions[index];
+      quiz.innerHTML = `
+        <div class="text-center">
+          <img src="${q.image}" alt="Questão ${index + 1}" class="question-img img-fluid"/>
+        </div>
+        <h5 class="text-center mb-3">Questão ${index + 1}</h5>
+        <div class="d-grid gap-2">
+          ${q.options.map(option => `
+            <button class="btn btn-outline-dark option-btn" data-answer="${option}">${option}</button>
+          `).join('')}
+        </div>
+        <p id="feedback" class="text-center mt-3 fw-bold"></p>
+      `;
+
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const selected = this.getAttribute('data-answer');
+          const correct = questions[currentQuestion].answer;
+          const feedback = document.getElementById('feedback');
+
+          if (selected === correct) {
+            this.classList.add('correct');
+            feedback.textContent = "✅ Acertou!";
+            score += 10;
+            userAnswers.push({ correct: true, selected, correctAnswer: correct });
+          } else {
+            this.classList.add('incorrect');
+            document.querySelector(`.option-btn[data-answer="${correct}"]`).classList.add('correct');
+            feedback.textContent = "❌ Errou!";
+            userAnswers.push({ correct: false, selected, correctAnswer: correct });
+          }
+
+          document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+          nextBtn.classList.remove('d-none');
+        });
+      });
+    }
+
+    nextBtn.addEventListener('click', () => {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion(currentQuestion);
+        nextBtn.classList.add('d-none');
+      } else {
+        showResult();
+      }
+    });
+
+    function showResult() {
+      quiz.classList.add('d-none');
+      nextBtn.classList.add('d-none');
+      result.classList.remove('d-none');
+      scoreText.textContent = `Você fez ${score} de 100 pontos`;
+
+      summaryList.innerHTML = userAnswers.map((res, i) => `
+        <li class="list-group-item">
+          Questão ${i + 1}: ${res.correct ? '✅ Acertou' : `❌ Errou (Você marcou: ${res.selected}, Correto: ${res.correctAnswer})`}
+        </li>
+      `).join('');
+    }
+
+    showQuestion(currentQuestion);
+  </script>
+</body>
+</html>
