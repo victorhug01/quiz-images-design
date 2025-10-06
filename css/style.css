@@ -238,7 +238,7 @@ svg {
 }
 
 .progress-bar {
-    background: linear-gradient(90deg, #fe2b70, );
+    background: linear-gradient(90deg, #fe2b70, #00475e);
     transition: width 0.25s ease;
 }
 
