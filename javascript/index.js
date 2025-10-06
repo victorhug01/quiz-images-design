@@ -31,7 +31,6 @@ function showQuestion(index) {
     quiz.innerHTML = `
         <div class="fade-in">
           <img src="${q.image}" alt="Questão ${index + 1}" class="question-img img-fluid"/>
-          <h5 class="text-center mt-3 mb-1">Questão ${index + 1}</h5>
           <div class="text-center mb-3">${feedbackHTML}</div>
           <div class="d-grid gap-2">
             ${q.options.map(option => {
@@ -66,13 +65,11 @@ function showQuestion(index) {
 
                 if (acertou) {
                     this.classList.add('correct');
-                    toast.textContent = "✅ Acertou!";
                     toast.className = "toast-msg toast-success";
                     score += 10;
                 } else {
                     this.classList.add('incorrect');
                     document.querySelector(`.option-btn[data-answer="${correct}"]`).classList.add('correct');
-                    toast.textContent = "❌ Errou!";
                     toast.className = "toast-msg toast-error";
                 }
 
