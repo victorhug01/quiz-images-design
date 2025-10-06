@@ -250,3 +250,15 @@ svg {
 .default-buttons{
     width: 70%;
 }
+
+/* classes específicas para feedback por borda com cores e espessura solicitadas */
+.answer-correct {
+    border: 3px solid #42ff00 !important; /* verde solicitado */
+    color: #42ff00 !important;
+    background: transparent !important;
+}
+.answer-wrong {
+    border: 3px solid #ff0000 !important; /* vermelho solicitado */
+    color: #ff0000 !important;
+    background: transparent !important;
+}

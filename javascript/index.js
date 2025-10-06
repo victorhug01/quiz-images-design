@@ -34,22 +34,23 @@ function showQuestion(index) {
           <div class="text-center mb-3">${feedbackHTML}</div>
           <div class="d-grid gap-2">
             ${q.options.map(option => {
-        let btnClass = "btn-outline-dark";
-        let attr = "";
+            let btnClass = "btn-outline-dark";
+            let attr = "";
 
-        if (showingResults) {
-            if (option === q.answer) {
-                btnClass = "correct";
-            } else if (user && option === user.selected) {
-                btnClass = "incorrect";
+            if (showingResults) {
+                // usar border-only feedback nas respostas ao mostrar resultados
+                if (option === q.answer) {
+                    btnClass = "answer-correct";
+                } else if (user && option === user.selected) {
+                    btnClass = "answer-wrong";
+                }
+                attr = "disabled";
+            } else {
+                attr = `data-answer="${option}"`;
             }
-            attr = "disabled";
-        } else {
-            attr = `data-answer="${option}"`;
-        }
 
-        return `<button class="btn ${btnClass} option-btn" ${attr}>${option}</button>`;
-    }).join('')}
+            return `<button class="btn ${btnClass} option-btn" ${attr}>${option}</button>`;
+        }).join('')}
           </div>
         </div>
       `;
@@ -64,12 +65,20 @@ function showQuestion(index) {
                 const acertou = selected === correct;
 
                 if (acertou) {
-                    this.classList.add('correct');
+                    // manter .btn, remover variantes e adicionar classe customizada de acerto (borda verde)
+                    this.classList.remove('btn-outline-dark', 'btn-primary', 'btn-success', 'btn-danger');
+                    this.classList.add('answer-correct', 'bg-transparent');
                     toast.className = "toast-msg toast-success";
                     score += 10;
                 } else {
-                    this.classList.add('incorrect');
-                    document.querySelector(`.option-btn[data-answer="${correct}"]`).classList.add('correct');
+                    // marcar escolhido com classe customizada de erro (borda vermelha)
+                    this.classList.remove('btn-outline-dark', 'btn-primary', 'btn-success', 'btn-danger');
+                    this.classList.add('answer-wrong', 'bg-transparent');
+                    const rightBtn = document.querySelector(`.option-btn[data-answer="${correct}"]`);
+                    if (rightBtn) {
+                        rightBtn.classList.remove('btn-outline-dark', 'btn-primary', 'btn-success', 'btn-danger');
+                        rightBtn.classList.add('answer-correct', 'bg-transparent');
+                    }
                     toast.className = "toast-msg toast-error";
                 }
 
@@ -113,9 +122,10 @@ function showResultsPage() {
             <div class="d-grid gap-2">
               ${q.options.map(option => {
             let btnClass = "option-btn";
-            if (option === user.correctAnswer) btnClass += " correct";
-            else if (option === user.selected && !user.correct) btnClass += " incorrect";
-            return `<button class="btn ${btnClass}" disabled>${option}</button>`;
+            if (option === user.correctAnswer) btnClass += " border border-success text-success";
+            else if (option === user.selected && !user.correct) btnClass += " border border-danger text-danger";
+            // garantir fundo transparente (classe btn mantida para spacing)
+            return `<button class="btn ${btnClass} bg-transparent" disabled>${option}</button>`;
         }).join('')}
             </div>
           </div>
