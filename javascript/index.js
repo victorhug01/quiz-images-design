@@ -120,13 +120,13 @@ function showResultsPage() {
             <img src="${q.image}" alt="Questão ${index + 1}" class="question-img img-fluid mb-2"/>
             <h5 class="text-center mb-1">Questão ${index + 1}</h5>
             <div class="d-grid gap-2">
-              ${q.options.map(option => {
-            let btnClass = "option-btn";
-            if (option === user.correctAnswer) btnClass += " border border-success text-success";
-            else if (option === user.selected && !user.correct) btnClass += " border border-danger text-danger";
-            // garantir fundo transparente (classe btn mantida para spacing)
-            return `<button class="btn ${btnClass} bg-transparent" disabled>${option}</button>`;
-        }).join('')}
+                            ${q.options.map(option => {
+                        let btnClass = "option-btn";
+                        if (option === user.correctAnswer) btnClass += " answer-correct";
+                        else if (option === user.selected && !user.correct) btnClass += " answer-wrong";
+                        // garantir fundo transparente (classe btn mantida para spacing)
+                        return `<button class="btn ${btnClass} bg-transparent" disabled>${option}</button>`;
+                }).join('')}
             </div>
           </div>
         `;
