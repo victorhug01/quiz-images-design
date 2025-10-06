@@ -168,7 +168,7 @@ function showFinalScore() {
     const incorrectCount = userAnswers.length - correctCount;
 
     quiz.innerHTML = `
-    <h4 class="text-center mt-5">Quiz finalizado! Você fez ${score} de 100 pontos</h4>
+    <h4 class="text-center mt-5">Quiz finalizado!<br>Você fez ${score} de 100 pontos!</h4>
     <div class="my-4 d-flex justify-content-center">
       <canvas id="scoreChart" width="250" height="250"></canvas>
     </div>
