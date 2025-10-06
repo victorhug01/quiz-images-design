@@ -100,6 +100,7 @@ function showQuestion(index) {
                 // atualizar a cada segundo
                 let intervalId = setInterval(() => {
                     secondsLeft -= 1;
+                    if (timerEl)timerEl.style.color = '#fe2b70';
                     if (timerEl) timerEl.textContent = `Redirecionando em ${secondsLeft}s...`;
                 }, 1000);
 
@@ -172,7 +173,7 @@ function showFinalScore() {
       <canvas id="scoreChart" width="250" height="250"></canvas>
     </div>
     <div class="text-center mt-4">
-      <button id="restartBtn" class="btn btn-success default-buttons">Recomeçar</button>
+      <button id="restartBtn" class="btn default-buttons">Recomeçar</button>
     </div>
   `;
 

@@ -265,3 +265,11 @@ svg {
     opacity: 0.85;
     transition: opacity 0.2s ease;
 }
+.auto-timer {
+    color: #fe2b70 !important; /* rosa solicitado */
+}
+
+#restartBtn{
+    background-color: #fe2b70;
+    color: white;
+}
