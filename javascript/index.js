@@ -125,7 +125,7 @@ function showResultsPage() {
         `;
     });
 
-    resultsHTML += `<button id="finishBottom" class="btn btn-primary mt-3">Finalizar</button></div>`;
+    resultsHTML += `<button id="finishBottom" class="btn btn-primary mt-3 default-buttons">Finalizar</button></div>`;
     quiz.innerHTML = resultsHTML;
 
     // Botões finalizar levam à pontuação final
