@@ -15,6 +15,7 @@ let currentQuestion = 0;
 let score = 0;
 let userAnswers = [];
 let showingResults = false;
+let autoAdvanceTimeout = null;
 
 
 const quiz = document.getElementById('quiz');
@@ -31,7 +32,8 @@ function showQuestion(index) {
     quiz.innerHTML = `
         <div class="fade-in">
           <img src="${q.image}" alt="Questão ${index + 1}" class="question-img img-fluid"/>
-          <div class="text-center mb-3">${feedbackHTML}</div>
+                    <div id="autoTimer" class="auto-timer text-muted small mb-2" style="display:none"></div>
+                    <div class="text-center mb-3">${feedbackHTML}</div>
           <div class="d-grid gap-2">
             ${q.options.map(option => {
             let btnClass = "btn-outline-dark";
@@ -84,7 +86,29 @@ function showQuestion(index) {
 
                 userAnswers.push({ selected, correctAnswer: correct, correct: acertou });
                 btns.forEach(b => b.disabled = true);
-                nextBtn.classList.remove('d-none');
+
+                // agendar avanço automático em 3 segundos
+                if (autoAdvanceTimeout) clearTimeout(autoAdvanceTimeout);
+                // iniciar contador visível
+                const timerEl = document.getElementById('autoTimer');
+                let secondsLeft = 3;
+                if (timerEl) {
+                    timerEl.style.display = 'block';
+                    timerEl.textContent = `Redirecionando em ${secondsLeft}s...`;
+                }
+
+                // atualizar a cada segundo
+                let intervalId = setInterval(() => {
+                    secondsLeft -= 1;
+                    if (timerEl) timerEl.textContent = `Redirecionando em ${secondsLeft}s...`;
+                }, 1000);
+
+                autoAdvanceTimeout = setTimeout(() => {
+                    // limpar interval e avançar
+                    clearInterval(intervalId);
+                    if (timerEl) timerEl.textContent = 'Redirecionando...';
+                    advanceToNext();
+                }, 3000);
             });
         });
     }
@@ -145,22 +169,34 @@ function finalizeQuiz() {
 }
 
 nextBtn.addEventListener('click', () => {
+    advanceToNext();
+});
+
+// Função reutilizável para avançar para próxima questão / resultados
+function advanceToNext() {
+    // limpar timeout se existir
+    if (autoAdvanceTimeout) {
+        clearTimeout(autoAdvanceTimeout);
+        autoAdvanceTimeout = null;
+    }
+
     currentQuestion++;
     if (!showingResults && currentQuestion < questions.length) {
         showQuestion(currentQuestion);
-        nextBtn.classList.add('d-none');
+        // manter o botão oculto; avanço será automático após próxima resposta
+        if (nextBtn) nextBtn.classList.add('d-none');
     } else if (!showingResults && currentQuestion === questions.length) {
         showResultsPage();
     } else if (showingResults && currentQuestion < questions.length) {
         showQuestion(currentQuestion);
-        if (currentQuestion === questions.length - 1) {
+        if (currentQuestion === questions.length - 1 && nextBtn) {
             nextBtn.textContent = "Finalizar";
         }
     } else {
         quiz.innerHTML = `<h4 class="text-center mt-5">✅ Quiz finalizado! Você fez ${score} de 100 pontos</h4>`;
-        nextBtn.classList.add('d-none');
+        if (nextBtn) nextBtn.classList.add('d-none');
     }
-});
+}
 
 function showFinalScore() {
     nextBtn.classList.add('d-none');

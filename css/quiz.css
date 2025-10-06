@@ -258,3 +258,10 @@ svg {
     color: #ff0000 !important;
     background: transparent !important;
 }
+
+/* contador visível entre a imagem e as alternativas */
+.auto-timer {
+    font-weight: 600;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+}
