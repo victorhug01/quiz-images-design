@@ -25,6 +25,14 @@ function showQuestion(index) {
     const q = questions[index];
     const user = userAnswers[index];
 
+    // atualizar indicador de qual questão estamos (ex: 01/10)
+    const indicador = document.querySelector('.indicador-quiz');
+    if (indicador) {
+        const current = String(index + 1).padStart(2, '0');
+        const total = String(questions.length).padStart(2, '0');
+        indicador.textContent = `${current}/${total}`;
+    }
+
     const feedbackHTML = showingResults
         ? `<div class="toast-msg ${user.correct ? 'toast-success' : 'toast-error'}">${user.correct ? '✅ Acertou' : `❌ Errou (Você marcou: ${user.selected})`}</div>`
         : `<div id="toast"></div>`;
