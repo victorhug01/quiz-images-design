@@ -241,3 +241,12 @@ svg {
     background: linear-gradient(90deg, #0d6efd, #198754);
     transition: width 0.25s ease;
 }
+
+.option-btn, .default-buttons{
+    height: 60px;
+    border-radius: 30px;
+}
+
+.default-buttons{
+    width: 70%;
+}

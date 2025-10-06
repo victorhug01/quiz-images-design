@@ -100,7 +100,7 @@ function showResultsPage() {
 
     // HTML dos resultados estilo coluna
     let resultsHTML = `<div class="d-flex flex-column align-items-center gap-3">
-        <button id="finishTop" class="btn btn-primary mb-3">Finalizar</button>
+        <button id="finishTop" class="btn btn-primary mb-3 default-buttons">Finalizar</button>
       `;
 
     userAnswers.forEach((user, index) => {
@@ -168,7 +168,7 @@ function showFinalScore() {
       <canvas id="scoreChart" width="250" height="250"></canvas>
     </div>
     <div class="text-center mt-4">
-      <button id="restartBtn" class="btn btn-success">Recomeçar</button>
+      <button id="restartBtn" class="btn btn-success default-buttons">Recomeçar</button>
     </div>
   `;
 
