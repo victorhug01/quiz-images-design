@@ -124,46 +124,6 @@ function updateProgress(index) {
     bar.style.width = pct + '%';
 }
 
-function showResultsPage() {
-    showingResults = true;
-    nextBtn.classList.add('d-none');
-
-    // HTML dos resultados estilo coluna
-    let resultsHTML = `<div class="d-flex flex-column align-items-center gap-3">
-        <button id="finishTop" class="btn btn-primary mb-3 default-buttons">Finalizar</button>
-      `;
-
-    userAnswers.forEach((user, index) => {
-        const q = questions[index];
-        const correctClass = user.correct ? 'toast-success' : 'toast-error';
-        resultsHTML += `
-          <div class="card w-100 p-3">
-            <div class="text-center mb-2 ${correctClass}">
-              ${user.correct ? '✅ Acertou' : `❌ Errou (Você marcou: ${user.selected})`}
-            </div>
-            <img src="${q.image}" alt="Questão ${index + 1}" class="question-img img-fluid mb-2"/>
-            <h5 class="text-center mb-1">Questão ${index + 1}</h5>
-            <div class="d-grid gap-2">
-                            ${q.options.map(option => {
-                        let btnClass = "option-btn";
-                        if (option === user.correctAnswer) btnClass += " answer-correct";
-                        else if (option === user.selected && !user.correct) btnClass += " answer-wrong";
-                        // garantir fundo transparente (classe btn mantida para spacing)
-                        return `<button class="btn ${btnClass} bg-transparent" disabled>${option}</button>`;
-                }).join('')}
-            </div>
-          </div>
-        `;
-    });
-
-    resultsHTML += `<button id="finishBottom" class="btn btn-primary mt-3 default-buttons">Finalizar</button></div>`;
-    quiz.innerHTML = resultsHTML;
-
-    // Botões finalizar levam à pontuação final
-    document.getElementById('finishTop').addEventListener('click', showFinalScore);
-    document.getElementById('finishBottom').addEventListener('click', showFinalScore);
-}
-
 function finalizeQuiz() {
     quiz.innerHTML = `<h4 class="text-center mt-5">✅ Quiz finalizado! Você fez ${score} de 100 pontos</h4>`;
 }
@@ -186,7 +146,8 @@ function advanceToNext() {
         // manter o botão oculto; avanço será automático após próxima resposta
         if (nextBtn) nextBtn.classList.add('d-none');
     } else if (!showingResults && currentQuestion === questions.length) {
-        showResultsPage();
+        // pular visualização de todas as respostas e ir direto ao gráfico final
+        showFinalScore();
     } else if (showingResults && currentQuestion < questions.length) {
         showQuestion(currentQuestion);
         if (currentQuestion === questions.length - 1 && nextBtn) {
